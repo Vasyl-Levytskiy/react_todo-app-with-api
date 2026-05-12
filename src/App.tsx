@@ -142,6 +142,8 @@ export const App: React.FC = () => {
         return currentTodos.filter(todo => todo.id !== id);
       });
 
+      inputRef.current?.focus();
+
       return true;
     } catch {
       setError(ErrorMessage.Delete);
