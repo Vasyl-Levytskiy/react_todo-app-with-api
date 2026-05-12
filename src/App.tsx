@@ -132,28 +132,24 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleDelete = async (todoId: number) => {
-    setProcessingIds(currentIds => {
-      return [...currentIds, todoId];
-    });
+  const handleDelete = async (id: number): Promise<boolean> => {
+    setProcessingIds(currentIds => [...currentIds, id]);
 
     try {
-      await deleteTodo(todoId);
+      await deleteTodo(id);
 
       setTodos(currentTodos => {
-        return currentTodos.filter(todo => {
-          return todo.id !== todoId;
-        });
+        return currentTodos.filter(todo => todo.id !== id);
       });
 
-      inputRef.current?.focus();
+      return true;
     } catch {
       setError(ErrorMessage.Delete);
+
+      return false;
     } finally {
       setProcessingIds(currentIds => {
-        return currentIds.filter(id => {
-          return id !== todoId;
-        });
+        return currentIds.filter(currentId => currentId !== id);
       });
     }
   };
@@ -190,9 +186,7 @@ export const App: React.FC = () => {
     }
 
     if (!trimmedTitle) {
-      await handleDelete(todo.id);
-
-      return true;
+      return handleDelete(todo.id);
     }
 
     setProcessingIds(currentIds => [...currentIds, todo.id]);
