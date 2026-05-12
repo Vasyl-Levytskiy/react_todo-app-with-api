@@ -31,15 +31,19 @@ export const TodoItem: React.FC<Props> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await onRename(todo, editedTitle);
+    const wasRenamed = await onRename(todo, editedTitle);
 
-    setIsEditing(false);
+    if (wasRenamed) {
+      setIsEditing(false);
+    }
   };
 
   const handleBlur = async () => {
-    await onRename(todo, editedTitle);
+    const wasRenamed = await onRename(todo, editedTitle);
 
-    setIsEditing(false);
+    if (wasRenamed) {
+      setIsEditing(false);
+    }
   };
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
