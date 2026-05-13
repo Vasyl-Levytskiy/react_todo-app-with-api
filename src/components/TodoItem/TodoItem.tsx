@@ -56,12 +56,18 @@ export const TodoItem: React.FC<Props> = ({
   return (
     <div data-cy="Todo" className={cn('todo', { completed: todo.completed })}>
       <input
+        id={`todo-status-${todo.id}`}
         data-cy="TodoStatus"
         type="checkbox"
         className="todo__status"
         checked={todo.completed}
         disabled={isProcessing}
         onChange={() => onToggle(todo)}
+      />
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */}
+      <label
+        htmlFor={`todo-status-${todo.id}`}
+        className="todo__status-label"
       />
 
       {isEditing ? (
